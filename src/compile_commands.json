@@ -1,0 +1,8 @@
+[
+  {
+    "directory": "/home/or/strike/build",
+    "command": "c++ -Isrc/strike.p -Isrc -I../src -fdiagnostics-color=always -D_GLIBCXX_ASSERTIONS=1 -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=c++23 -O0 -g -MD -MQ src/strike.p/main.cpp.o -MF src/strike.p/main.cpp.o.d -o src/strike.p/main.cpp.o -c ../src/main.cpp",
+    "file": "../src/main.cpp",
+    "output": "src/strike.p/main.cpp.o"
+  }
+]
