@@ -1,8 +1,11 @@
+#include "listener/listener.hpp"
 #include <ctime>
 #include <defines.hpp>
 #include <destroy.hpp>
+#include <compositor/compositor.hpp>
 
 #include <memory>
+#include <string_view>
 
 extern "C"
 {
@@ -17,12 +20,11 @@ namespace sk
   {
   public:
 
-    static constexpr globals_t& singleton();
+    static globals_t& singleton();
 
     globals_t() = default;
 
-    void init_phase_1();
-    void init_phase_2();
+    void init();
 
     //using std::unique_ptr for destructors, the providing of alternative destroyers is in destroy.hpp
     ~globals_t() = default;
@@ -32,9 +34,10 @@ namespace sk
     wlr_backend* backend() { return m_backend.get(); }
     wlr_allocator* allocator() { return m_allocator.get(); }
     wlr_renderer* renderer2d() { return m_renderer2d.get(); } 
-    wlr_compositor* compositor() { return m_compositor.get(); }
 
     wlr_scene* scene_tree() { return m_scene_tree; }
+
+    std::string_view socket() { return m_socket; }
 
   private:
     
@@ -43,7 +46,12 @@ namespace sk
     std::unique_ptr<wlr_backend> m_backend;
     std::unique_ptr<wlr_allocator> m_allocator;
     std::unique_ptr<wlr_renderer> m_renderer2d;
-    std::unique_ptr<wlr_compositor> m_compositor;
     wlr_scene* m_scene_tree;
+
+    std::string_view m_socket;
+
+    listener_t m_on_new_output;
+
+    
   };
 }

@@ -26,6 +26,7 @@ namespace sk
 
     //for contructors that will set_callback later
     listener_t();
+    void set_signal(signal_t* signal);
     void set_callback(const callback_t& callback);
 
     ~listener_t();

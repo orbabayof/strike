@@ -17,11 +17,19 @@ sk::listener_t::listener_t(signal_t* signal)
   , m_signal { signal }
 {}
 
+sk::listener_t::listener_t()
+  : listener_t { nullptr }
+{}
 
 void sk::listener_t::set_callback(const callback_t& callback)
 {
   m_callback = callback;
   wl_signal_add(m_signal, &m_wl_listener);
+}
+
+void sk::listener_t::set_signal(signal_t* signal)
+{
+  m_signal = signal;
 }
 
 sk::listener_t::~listener_t()

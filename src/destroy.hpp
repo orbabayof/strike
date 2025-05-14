@@ -10,6 +10,7 @@ extern "C"
   #include <wlroots-0.19/wlr/backend.h>
   #include <wlroots-0.19/wlr/render/allocator.h>
   #include <wlroots-0.19/wlr/render/wlr_renderer.h>
+  #include <wlroots-0.19/wlr/types/wlr_compositor.h>
 }
 
 

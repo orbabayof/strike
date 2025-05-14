@@ -1,18 +1,22 @@
 #include <globals/globals.hpp>
 #include <wayland-server-core.h>
+#include <output/output.hpp>
+
+#include <iostream>
 
 extern "C"
 {
   #include <wlroots-0.19/wlr/backend.h>
+  #include <wlroots-0.19/wlr/types/wlr_output.h>
 }
 
-constexpr sk::globals_t& sk::globals_t::singleton()
+sk::globals_t& sk::globals_t::singleton()
 {
   static globals_t global {};
   return global;
 }
 
-void sk::globals_t::init_phase_1()
+void sk::globals_t::init()
 {
   m_display.reset(wl_display_create());
   
@@ -29,4 +33,20 @@ void sk::globals_t::init_phase_1()
   m_allocator.reset(wlr_allocator_autocreate(backend(), renderer2d()));
 
   m_scene_tree = wlr_scene_create();
+
+  m_socket = wl_display_add_socket_auto(display());
+  std::cout << "running on socket " << socket() << '\n';
+
+  m_on_new_output.set_signal(&backend()->events.new_output);
+  m_on_new_output.set_callback([](listener_t*, void* data)
+  {
+    auto* wlr_output { static_cast<struct wlr_output*>(data) };
+
+    auto* output { new output_t { wlr_output } };
+
+    output->set_mode(); 
+    output->create_global();
+
+    //output will be deleted in the wlr_output_destroy listener
+  });
 }
