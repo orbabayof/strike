@@ -51,6 +51,7 @@ namespace sk
     std::string_view m_socket;
 
     listener_t m_on_new_output;
+    listener_t m_on_new_input;
 
     
   };

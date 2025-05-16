@@ -2,6 +2,7 @@
 #include <globals/globals.hpp>
 #include <wayland-server-core.h>
 #include <output/output.hpp>
+#include <keyboard/keyboard.hpp>
 
 #include <iostream>
 
@@ -9,6 +10,9 @@ extern "C"
 {
   #include <wlroots-0.19/wlr/backend.h>
   #include <wlroots-0.19/wlr/types/wlr_output.h>
+  #include <wlroots-0.19/wlr/types/wlr_input_device.h>
+  #include <wlroots-0.19/wlr/types/wlr_keyboard.h>
+  #include <xkbcommon/xkbcommon.h>
 }
 
 sk::globals_t& sk::globals_t::singleton()
@@ -50,5 +54,25 @@ void sk::globals_t::init()
     output->create_global();
 
     //output will be deleted in the wlr_output_destroy listener
+  });
+
+  m_on_new_input.set_signal(&backend()->events.new_input);
+  m_on_new_input.set_callback([](listener_t*, void* data)
+  {
+    auto* device { static_cast<wlr_input_device*>(data) };
+    switch(device->type)
+    {
+      case WLR_INPUT_DEVICE_KEYBOARD:
+      {
+        auto* wlr_keyboard = wlr_keyboard_from_input_device(device);
+        
+        auto* keyboard = new keyboard_t { wlr_keyboard, device};
+        keyboard->set_keymap();
+      }
+      default:
+      {
+        break;
+      }
+    }
   });
 }
