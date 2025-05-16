@@ -1,3 +1,4 @@
+#include "listener/listener.hpp"
 #include <globals/globals.hpp>
 #include <wayland-server-core.h>
 #include <output/output.hpp>
@@ -30,6 +31,7 @@ void sk::globals_t::init()
   
   m_renderer2d.reset(wlr_renderer_autocreate(backend()));
   wlr_renderer_init_wl_display(renderer2d(), display());
+
   m_allocator.reset(wlr_allocator_autocreate(backend(), renderer2d()));
 
   m_scene_tree = wlr_scene_create();

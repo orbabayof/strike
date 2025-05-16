@@ -9,7 +9,7 @@
 
 sk::output_t::output_t(wlr_output* wlr_output)
   : m_wlr_output { wlr_output }
-  , m_scene_output { wlr_scene_output_create(globals_t::singleton().scene_tree(), wlr_output) }
+  , m_scene_output { wlr_scene_output_create(globals_t::singleton().scene(), wlr_output) }
   , m_on_frame { &wlr_output->events.frame }
   , m_on_destroy { &wlr_output->events.destroy }
 {

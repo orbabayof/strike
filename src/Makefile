@@ -5,3 +5,7 @@ install:
 
 clean:
 	rm compile_commands.json strike
+
+run:
+	sleep 10 && pkill strike &
+	./strike

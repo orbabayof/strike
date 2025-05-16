@@ -10,6 +10,7 @@ dependencies = [
   dependency('wlroots-0.19', version: ['>=0.19.0', '<0.20.0'], required: true),
   dependency('wayland-server'),
   dependency('xkbcommon'),
+  dependency('boost'),
 ]
 
 subdir('src')

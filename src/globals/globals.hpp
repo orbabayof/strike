@@ -35,7 +35,7 @@ namespace sk
     wlr_allocator* allocator() { return m_allocator.get(); }
     wlr_renderer* renderer2d() { return m_renderer2d.get(); } 
 
-    wlr_scene* scene_tree() { return m_scene_tree; }
+    wlr_scene* scene() { return m_scene_tree; }
 
     std::string_view socket() { return m_socket; }
 
