@@ -1,10 +1,12 @@
 #include "listener/listener.hpp"
+#include <cstdint>
 #include <globals/globals.hpp>
 #include <wayland-server-core.h>
 #include <output/output.hpp>
-#include <keyboard/keyboard.hpp>
+#include <input/keyboard.hpp>
 
 #include <iostream>
+#include <wayland-server-protocol.h>
 
 extern "C"
 {
@@ -12,6 +14,7 @@ extern "C"
   #include <wlroots-0.19/wlr/types/wlr_output.h>
   #include <wlroots-0.19/wlr/types/wlr_input_device.h>
   #include <wlroots-0.19/wlr/types/wlr_keyboard.h>
+  #include <wlroots-0.19/wlr/types/wlr_seat.h>
   #include <xkbcommon/xkbcommon.h>
 }
 
@@ -57,9 +60,11 @@ void sk::globals_t::init()
   });
 
   m_on_new_input.set_signal(&backend()->events.new_input);
-  m_on_new_input.set_callback([](listener_t*, void* data)
+  m_on_new_input.set_callback([this](listener_t*, void* data)
   {
     auto* device { static_cast<wlr_input_device*>(data) };
+    std::uint32_t capabilities { 0 };
+
     switch(device->type)
     {
       case WLR_INPUT_DEVICE_KEYBOARD:
@@ -68,11 +73,18 @@ void sk::globals_t::init()
         
         auto* keyboard = new keyboard_t { wlr_keyboard, device};
         keyboard->set_keymap();
+
+        capabilities |= WL_SEAT_CAPABILITY_KEYBOARD;
       }
       default:
       {
         break;
       }
     }
+
+    wlr_seat_set_capabilities(this->seat().wlr(), capabilities);
+
   });
+  
+  m_seat.init();
 }

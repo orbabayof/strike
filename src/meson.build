@@ -6,7 +6,9 @@ exe = executable(
   './globals/globals.cpp',
   './compositor/compositor.cpp',
   './surface/surface.cpp',
-  './keyboard/keyboard.cpp',
+  './input/keyboard.cpp',
+  './input/seat.cpp',
+  './util/util.cpp',
   install : true,
   dependencies : dependencies,
 )

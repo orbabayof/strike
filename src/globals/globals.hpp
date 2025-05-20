@@ -3,6 +3,7 @@
 #include <defines.hpp>
 #include <destroy.hpp>
 #include <compositor/compositor.hpp>
+#include <input/seat.hpp>
 
 #include <memory>
 #include <string_view>
@@ -39,6 +40,8 @@ namespace sk
 
     std::string_view socket() { return m_socket; }
 
+    seat_t& seat() { return m_seat; }
+
   private:
     
     std::unique_ptr<wl_display> m_display;
@@ -47,6 +50,7 @@ namespace sk
     std::unique_ptr<wlr_allocator> m_allocator;
     std::unique_ptr<wlr_renderer> m_renderer2d;
     wlr_scene* m_scene_tree;
+    seat_t m_seat;
 
     std::string_view m_socket;
 

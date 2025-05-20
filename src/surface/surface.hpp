@@ -4,6 +4,7 @@
 #include <defines.hpp>
 #include <memory>
 #include <destroy.hpp>
+
 extern "C"
 {
   #include "../wlroots_headers_for_cpp/wlr_scene.h"

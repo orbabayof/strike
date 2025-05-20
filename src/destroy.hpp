@@ -2,6 +2,7 @@
 
 #include <defines.hpp>
 
+#include <iostream>
 #include <wayland-server-core.h>
 #include <xkbcommon/xkbcommon.h>
 #include <memory>
@@ -34,6 +35,7 @@ inline void destroy_display_with_clients(wl_display* display)
 
 inline void remove_scene_node_of_wlr_scene_surface(wlr_scene_surface* wlr_scene_surface)
 {
+  std::cerr << wlr_scene_surface->buffer->node.events.destroy.listener_list.next;
   wlr_scene_node_destroy(&wlr_scene_surface->buffer->node);
 }
 
